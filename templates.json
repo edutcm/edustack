@@ -1,50 +1,130 @@
 [
-    {
-      "type": "container",
-      "title": "WordPress",
-      "description": "A free and open-source CMS",
-      "categories": ["CMS"],
-      "platform": "linux",
-      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/wordpress.png",
-      "image": "wordpress:latest",
-      "env": [
-        {
-          "name": "WORDPRESS_DB_HOST",
-          "label": "MySQL database host",
-          "type": "container"
-        },
-        {
-          "name": "WORDPRESS_DB_PASSWORD",
-          "label": "Database password"
-        }
-      ],
-      "ports": [
-        "80/tcp"
-      ],
-      "volumes": ["/var/www/html"]
+  {
+    "type": 3,
+    "title": "Traefik",
+    "description": "Traefik Ingress Controller",
+    "categories": ["Ingress"],
+    "platform": "linux",
+    "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/moodle.png",
+    "repository": {
+      "url": "https://github.com/edutcm/edustack",
+      "stackfile": "stacks/traefik/docker-compose.yml"
     },
-    {
-        "type": "container",
-        "title": "Moodle 4+ with MariaDB and Redis",
-        "description": "A Moodle 4+ stack optimized for tcmi.edu",
-        "categories": ["LMS"],
-        "platform": "linux",
-        "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/wordpress.png",
-        "image": "jamfire/edumoodle:latest",
-        "env": [
-          {
-            "name": "WORDPRESS_DB_HOST",
-            "label": "MySQL database host",
-            "type": "container"
-          },
-          {
-            "name": "WORDPRESS_DB_PASSWORD",
-            "label": "Database password"
-          }
-        ],
-        "ports": [
-          "80/tcp"
-        ],
-        "volumes": ["/var/www/html", "/var/moodle"]
+    "env": [
+      {
+        "name": "LE_EMAIL",
+        "label": "LetsEncrypt support email"
+      },
+      {
+        "name": "HOSTNAME",
+        "label": "Url to access service"
       }
+    ],
+    "volumes": ["/letsencrypt"]
+  },
+  {
+    "type": 3,
+    "title": "Moodle 4+ with MariaDB and Redis",
+    "description": "A Moodle 4+ stack optimized for tcmi.edu",
+    "categories": ["LMS"],
+    "platform": "linux",
+    "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/moodle.png",
+    "repository": {
+      "url": "https://github.com/edutcm/edustack",
+      "stackfile": "stacks/moodle/docker-compose.yml"
+    },
+    "env": [
+      {
+        "name": "MYSQL_ROOT_DB_PASSWORD",
+        "label": "Database root password"
+      },
+      {
+        "name": "MYSQL_DB_PASSWORD",
+        "label": "Database password"
+      },
+      {
+        "name": "HOSTNAME",
+        "label": "Url to access service"
+      },
+      {
+        "name": "TRAEFIK_SERVICE",
+        "label": "Traefik service name to route to"
+      }
+    ],
+    "volumes": ["/var/www/html", "/var/moodle"]
+  },
+  {
+    "type": 3,
+    "title": "Moodle 3+ with MariaDB and Redis",
+    "description": "A Moodle 3+ stack optimized for tcmi.edu",
+    "categories": ["LMS"],
+    "platform": "linux",
+    "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/moodle.png",
+    "repository": {
+      "url": "https://github.com/edutcm/edustack",
+      "stackfile": "stacks/moodle3/docker-compose.yml"
+    },
+    "env": [
+      {
+        "name": "MYSQL_ROOT_DB_PASSWORD",
+        "label": "Database root password"
+      },
+      {
+        "name": "MYSQL_DB_PASSWORD",
+        "label": "Database password"
+      },
+      {
+        "name": "HOSTNAME",
+        "label": "Url to access service"
+      },
+      {
+        "name": "TRAEFIK_SERVICE",
+        "label": "Traefik service name to route to"
+      }
+    ],
+    "volumes": ["/var/www/html", "/var/moodle"]
+  },
+  {
+    "type": 3,
+    "title": "WordPress with MariaDB and Redis",
+    "description": "A WordPress stack optimized for tcmi.edu",
+    "categories": ["CMS"],
+    "platform": "linux",
+    "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/wordpress.png",
+    "repository": {
+      "url": "https://github.com/edutcm/edustack",
+      "stackfile": "stacks/wordpress/docker-compose.yml"
+    },
+    "env": [
+      {
+        "name": "MYSQL_ROOT_DB_PASSWORD",
+        "label": "Database root password"
+      },
+      {
+        "name": "MYSQL_DB_PASSWORD",
+        "label": "Database password"
+      },
+      {
+        "name": "HOSTNAME",
+        "label": "Url to access service"
+      },
+      {
+        "name": "TRAEFIK_SERVICE",
+        "label": "Traefik service name to route to"
+      }
+    ],
+    "volumes": ["/var/www/html"]
+  },
+  {
+    "type": 3,
+    "title": "Watchtower",
+    "description": "Update docker images on new publishes",
+    "categories": ["CMS"],
+    "platform": "linux",
+    "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/watchtower.png",
+    "repository": {
+      "url": "https://github.com/edutcm/edustack",
+      "stackfile": "stacks/watchtower/docker-compose.yml"
+    }
+  }
 ]

@@ -13,4 +13,6 @@ docker network create -d overlay frontend # in swarm mode
 
 ## Start Portainer
 
-
+```
+docker run -d -p "8080:80" -v "${PWD}/templates.json:/usr/share/nginx/html/templates.json" portainer-templates
+```
