@@ -13,10 +13,10 @@ services:
       - moodledata:/var/moodledata
     environment:
       MOODLE_PASSWORD: {{ MYSQL_DB_PASSWORD }}
-      MOODLE_DOMAIN: {{ MOODLE_HOST }}
+      MOODLE_DOMAIN: {{ HOSTNAME }}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.moodle.rule=Host(`{{ MOODLE_HOST }}`)
+      - traefik.http.routers.moodle.rule=Host(`{{ HOSTNAME }}`)
       - traefik.http.routers.moodle.service={{ TRAEFIK_SERVICE }}
       - traefik.http.routers.moodle.tls=true
       - traefik.http.routers.moodle.tls.certresolver=le
