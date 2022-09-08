@@ -16,12 +16,16 @@ docker network create -d bridge frontend # in stand-alone mode
 docker network create -d overlay frontend # in swarm mode
 ```
 
-## Portainer Deployment
+## Portainer deployment
 
 ```
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v portainer_data:/data portainer/portainer-ce:latest \
+    -v portainer_data:/data portainer/portainer-ee:latest \
     --templates https://raw.githubusercontent.com/edutcm/edustack/main/templates.json
 ```
+
+## Added private registry
+
+Add the jamfire private registry under Settings > Registries using a cli token.

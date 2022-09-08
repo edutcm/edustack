@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
 
 wpEnvs=( "${!WORDPRESS_@}" )
 if [ ! -s wp-config.php ] && [ "${#wpEnvs[@]}" -gt 0 ]; then
