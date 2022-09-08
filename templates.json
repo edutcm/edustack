@@ -14,11 +14,15 @@
       "env": [
         {
           "name": "LE_EMAIL",
-          "label": "LetsEncrypt support email"
+          "label": "LetsEncrypt support email",
+          "default": "user@example.com",
+          "required": true
         },
         {
           "name": "HOSTNAME",
-          "label": "Url to access service"
+          "label": "Url to access service",
+          "default": "traefik.local",
+          "required": true
         }
       ],
       "volumes": ["/letsencrypt"]
