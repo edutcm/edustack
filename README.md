@@ -12,9 +12,8 @@ docker login # login to the docker cli to build and publish images
 ## Initial Swarm Setup
 
 ```bash
-docker network create -d overlay agent_network  # swarm mode
-docker network create -d overlay public         # swarm mode
-docker volume create portainer_data             # portainer data volume
+docker network create -d bridge frontend # standalone mode
+docker volume create portainer_data      # portainer data volume
 ```
 
 ## Portainer deployment
@@ -24,10 +23,10 @@ docker volume create portainer_data             # portainer data volume
 ```bash
 docker stack deploy -c portainer.yml portainer
 
-# docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
-#     -v /var/run/docker.sock:/var/run/docker.sock \
-#     -v portainer_data:/data portainer/portainer-ee:latest \
-#     --templates https://raw.githubusercontent.com/edutcm/edustack/main/templates.json
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v portainer_data:/data portainer/portainer-ee:latest \
+    --templates https://raw.githubusercontent.com/edutcm/edustack/main/templates.json
 ```
 
 ### In Development

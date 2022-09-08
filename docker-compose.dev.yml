@@ -1,0 +1,55 @@
+version: '3.2'
+
+services:
+  traefik:
+    image: "traefik:latest"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./.docker/traefik-dev/static.yml:/etc/traefik/traefik.yml:ro
+      - ./.docker/traefik-dev/dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ./.docker/traefik-dev/certs:/etc/certs:ro
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    networks:
+      - frontend
+
+  portainer:
+    image: portainer/portainer-ee:latest
+    command: -H unix:///var/run/docker.sock --templates https://raw.githubusercontent.com/edutcm/edustack/main/templates.json
+    restart: always
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./templates.json:/templates.json
+    networks:
+      - frontend
+    labels:
+      # Frontend
+      - traefik.enable=true
+      - traefik.http.routers.portainer.rule=Host(`portainer.docker.local`)
+      - traefik.http.routers.portainer.entrypoints=websecure
+      - traefik.http.routers.portainer.tls=true
+      - traefik.http.routers.portainer.tls.certresolver=le
+      - traefik.http.routers.portainer.service=portainer
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+      # Edge
+      - traefik.http.routers.edge.rule=Host(`edge.docker.local`)
+      - traefik.http.routers.edge.entrypoints=websecure
+      - traefik.http.routers.edge.tls=true
+      - traefik.http.routers.edge.tls.certresolver=le
+      - traefik.http.services.edge.loadbalancer.server.port=8000
+      - traefik.http.routers.edge.service=edge
+
+networks:
+  frontend:
+    external: true
+  agent_network:
+    external: true
+
+volumes:
+  portainer_data:
+    driver: local
+  le_data:
+    driver: local

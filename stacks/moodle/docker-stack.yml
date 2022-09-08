@@ -1,0 +1,71 @@
+version: "3.9"
+
+services:
+
+  # Moodle
+  # This is a custom php image for Moodle. If bitnami or moodlehq image begin
+  # supporting m1 architecture, we could move to one of these images instead
+  # of a custom built image.
+  moodle:
+    image: jamfire/edumoodle:latest
+    volumes:
+      - moodle:/var/www/html
+      - moodledata:/var/moodledata
+    environment:
+      MOODLE_PASSWORD: {{ MYSQL_DB_PASSWORD }}
+      MOODLE_DOMAIN: {{ HOSTNAME }}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.moodle.rule=Host(`{{ HOSTNAME }}`)
+      - traefik.http.routers.moodle.service={{ TRAEFIK_SERVICE }}
+      - traefik.http.routers.moodle.tls=true
+      - traefik.http.routers.moodle.tls.certresolver=le
+      - traefik.docker.network=frontend
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - moodle
+      - frontend
+
+  # Moodle MariaDB
+  # This MariaDB service adds a database for the Moodle service.
+  db:
+    image: mariadb:10.8
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: {{ MYSQL_ROOT_DB_PASSWORD }}
+      MARIADB_DATABASE: moodle
+      MARIADB_USER: moodle
+      MARIADB_PASSWORD: {{ MYSQL_DB_PASSWORD }}
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - moodle
+
+  # Redis
+  # This stack uses Redis as a Database Object Cache for services in the stack
+  redis:
+    image: redis:7.0-alpine
+    volumes:
+      - redis_data:/data
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - moodle
+
+# Volumes for services
+volumes:
+  db_data:
+    driver: local
+  moodledata:
+    driver: local
+  moodle:
+    driver: local
+  redis_data:
+    driver: local
+
+# Networks
+networks:
+  frontend:
+    external: true
+  moodle:
