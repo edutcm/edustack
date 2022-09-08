@@ -3,33 +3,6 @@
   "templates": [
     {
       "type": 3,
-      "title": "Traefik",
-      "description": "Traefik Ingress Controller",
-      "categories": ["Ingress"],
-      "platform": "linux",
-      "administrator-only": true,
-      "repository": {
-        "url": "https://github.com/edutcm/edustack",
-        "stackfile": "stacks/traefik/docker-compose.yml"
-      },
-      "env": [
-        {
-          "name": "LE_EMAIL",
-          "label": "LetsEncrypt support email",
-          "default": "user@example.com",
-          "required": true
-        },
-        {
-          "name": "HOSTNAME",
-          "label": "Hostname of service",
-          "default": "traefik.local",
-          "required": true
-        }
-      ],
-      "volumes": ["/letsencrypt"]
-    },
-    {
-      "type": 3,
       "title": "Moodle 4+ with MariaDB and Redis",
       "description": "A Moodle 4+ stack optimized for tcmi.edu",
       "categories": ["LMS"],
@@ -41,19 +14,23 @@
       "env": [
         {
           "name": "MYSQL_ROOT_DB_PASSWORD",
-          "label": "Database root password"
+          "label": "Database root password",
+          "required": true
         },
         {
           "name": "MYSQL_DB_PASSWORD",
-          "label": "Database password"
+          "label": "Database password",
+          "required": true
         },
         {
           "name": "HOSTNAME",
-          "label": "Hostname of service"
+          "label": "Hostname of service",
+          "required": true
         },
         {
           "name": "TRAEFIK_SERVICE",
-          "label": "Traefik service name to route to"
+          "label": "Traefik service name to route to",
+          "required": true
         }
       ],
       "volumes": ["/var/www/html", "/var/moodle"]
@@ -71,19 +48,23 @@
       "env": [
         {
           "name": "MYSQL_ROOT_DB_PASSWORD",
-          "label": "Database root password"
+          "label": "Database root password",
+          "required": true
         },
         {
           "name": "MYSQL_DB_PASSWORD",
-          "label": "Database password"
+          "label": "Database password",
+          "required": true
         },
         {
           "name": "HOSTNAME",
-          "label": "Hostname of service"
+          "label": "Hostname of service",
+          "required": true
         },
         {
           "name": "TRAEFIK_SERVICE",
-          "label": "Traefik service name to route to"
+          "label": "Traefik service name to route to",
+          "required": true
         }
       ],
       "volumes": ["/var/www/html", "/var/moodle"]
