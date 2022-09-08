@@ -121,9 +121,8 @@
       "type": 3,
       "title": "Watchtower",
       "description": "Update docker images on new publishes",
-      "categories": ["CMS"],
+      "categories": ["Admin"],
       "platform": "linux",
-      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/watchtower.png",
       "repository": {
         "url": "https://github.com/edutcm/edustack",
         "stackfile": "stacks/watchtower/docker-compose.yml"
