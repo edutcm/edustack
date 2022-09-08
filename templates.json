@@ -110,11 +110,13 @@
         },
         {
           "name": "HOSTNAME",
-          "label": "Hostname of service"
+          "label": "Hostname of service",
+          "default": "wordpress-local"
         },
         {
           "name": "TRAEFIK_SERVICE",
-          "label": "Traefik service name to route to"
+          "label": "Traefik service name to route to",
+          "default": "wordpress-wordpress"
         }
       ],
       "volumes": ["/var/www/html"]
