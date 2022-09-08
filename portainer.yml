@@ -5,20 +5,37 @@ services:
     image: "traefik:latest"
     command:
       - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
       - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.le.acme.email=admin@tcmi.edu
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.le.acme.tlschallenge=true
       - --providers.docker=true
       - --providers.docker.swarmMode=true
       - --providers.docker.exposedbydefault=false
       - --providers.docker.network=public
-      - --api
+      - --api.insecure=true
+      - --accesslog
       - --log.level=ERROR
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=web,websecure
+      - traefik.http.routers.traefik.rule=Host(`traefik.tcmi.edu`)
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.tls.certresolver=le
+      - com.centurylinklabs.watchtower.enable=true
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
+      - 8080:8080
     networks:
       - public
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - le_data:/letsencrypt
 
   agent:
     image: portainer/agent:latest
@@ -72,3 +89,5 @@ networks:
 
 volumes:
   data:
+  le_data:
+    driver: local
