@@ -32,7 +32,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=web,websecure
-      - traefik.http.routers.traefik.rule=Host(`{{ TRAEFIK_HOST }}`)
+      - traefik.http.routers.traefik.rule=Host(`{{ HOSTNAME }}`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.tls=true
       - traefik.http.routers.traefik.tls.certresolver=le

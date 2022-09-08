@@ -25,7 +25,7 @@ services:
        - data:/var/www/html
      labels:
        - traefik.enable=true
-       - traefik.http.routers.wordpress.rule=Host(`{{ WORDPRESS_HOST }}`, `www.{{ WORDPRESS_HOST }}`)
+       - traefik.http.routers.wordpress.rule=Host(`{{ HOSTNAME }}`, `www.{{ HOSTNAME }}`)
        - traefik.http.routers.wordpress.service={{ TRAEFIK_SERVICE }}
        - traefik.http.routers.wordpress.tls=true
        - traefik.http.routers.wordpress.tls.certresolver=le
