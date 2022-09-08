@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+
+  #################################
+  ##### TRAEFIK REVERSE PROXY #####
+  #################################
+
+  # Traefik Reverse Proxy and SSL Management
+  # Traefik will reverse proxy requests to different applications in the stack.
+  # This application is composed of one single frontend application, Moodle. If
+  # you wanted to expose more applications, for example, phpmyadmin, portainer, etc,
+  # you could add the appropriate traefik labels to those services, and traefik will
+  # automatically add ssl through ssl (unless you manually supply ssl certs) and
+  # exposeing them to the frontend.
+  traefik:
+    image: traefik:latest
+    restart: always
+    command:
+      - --accesslog
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.le.acme.email={{ LE_EMAIL }}
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.le.acme.tlschallenge=true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=web,websecure
+      - traefik.http.routers.traefik.rule=Host(`{{ TRAEFIK_HOST }}`)
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.tls.certresolver=le
+      - com.centurylinklabs.watchtower.enable=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - le_data:/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    networks:
+      - frontend
+
+# Networks
+networks:
+  frontend:
+    external: true
+
+# Volumes for services
+volumes:
+  le_data:
+    driver: local

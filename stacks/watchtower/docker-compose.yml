@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+
+  # Watchtower
+  # Automatically pull new docker images as they're updated. This is useful for
+  # private sites behind a VPN that don't have public access to tools like
+  # webhooks for deploying changes. It's important to lock down your versions
+  # to minor ranges.
+  watchtower:
+    image: containrrr/watchtower:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - frontend
+
+# Networks
+networks:
+  frontend:
+    external: true

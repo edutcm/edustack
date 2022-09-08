@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+   db:
+     image: mariadb:10.8
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: {{ MYSQL_ROOT_DB_PASSWORD }}
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: {{ MYSQL_DB_PASSWORD }}
+     networks:
+       - wordpress
+
+   wordpress:
+     image: wordpress:latest
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: {{ MYSQL_DB_PASSWORD }}
+     volumes:
+       - data:/var/www/html
+     labels:
+       - traefik.enable=true
+       - traefik.http.routers.wordpress.rule=Host(`{{ WORDPRESS_HOST }}`, `www.{{ WORDPRESS_HOST }}`)
+       - traefik.http.routers.wordpress.service={{ TRAEFIK_SERVICE }}
+       - traefik.http.routers.wordpress.tls=true
+       - traefik.http.routers.wordpress.tls.certresolver=le
+       - traefik.docker.network=frontend
+       - com.centurylinklabs.watchtower.enable=true
+     networks:
+      - frontend
+      - wordpress
+
+# Networks
+networks:
+  frontend:
+    external: true
+  wordpress:
+
+# Volumes
+volumes:
+  db_data:
+    driver: local
+  data:
+    driver: local
