@@ -111,7 +111,7 @@
         {
           "name": "HOSTNAME",
           "label": "Hostname of service",
-          "default": "wordpress-local"
+          "default": "wordpress.local"
         },
         {
           "name": "TRAEFIK_SERVICE",
