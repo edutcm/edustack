@@ -14,7 +14,6 @@ docker login # login to the docker cli to build and publish images
 ```bash
 docker network create -d overlay agent_network  # swarm mode
 docker network create -d overlay public         # swarm mode
-
 docker volume create portainer_data             # portainer data volume
 ```
 
