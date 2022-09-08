@@ -7,6 +7,7 @@
       "description": "Traefik Ingress Controller",
       "categories": ["Ingress"],
       "platform": "linux",
+      "administrator-only": true,
       "repository": {
         "url": "https://github.com/edutcm/edustack",
         "stackfile": "stacks/traefik/docker-compose.yml"
@@ -20,7 +21,7 @@
         },
         {
           "name": "HOSTNAME",
-          "label": "Url to access service",
+          "label": "Hostname of service",
           "default": "traefik.local",
           "required": true
         }
@@ -48,7 +49,7 @@
         },
         {
           "name": "HOSTNAME",
-          "label": "Url to access service"
+          "label": "Hostname of service"
         },
         {
           "name": "TRAEFIK_SERVICE",
@@ -78,7 +79,7 @@
         },
         {
           "name": "HOSTNAME",
-          "label": "Url to access service"
+          "label": "Hostname of service"
         },
         {
           "name": "TRAEFIK_SERVICE",
@@ -109,7 +110,7 @@
         },
         {
           "name": "HOSTNAME",
-          "label": "Url to access service"
+          "label": "Hostname of service"
         },
         {
           "name": "TRAEFIK_SERVICE",
