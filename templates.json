@@ -58,13 +58,11 @@
         },
         {
           "name": "HOSTNAME",
-          "label": "Hostname of service",
-          "required": true
+          "label": "Hostname of service"
         },
         {
           "name": "TRAEFIK_SERVICE",
-          "label": "Traefik service name to route to",
-          "required": true
+          "label": "Traefik service name to route to"
         }
       ],
       "volumes": ["/var/www/html", "/var/moodle"]
@@ -105,6 +103,7 @@
     {
       "type": 3,
       "title": "Watchtower",
+      "name": "watchtower",
       "description": "Update docker images on new publishes",
       "categories": ["Admin"],
       "platform": "linux",
