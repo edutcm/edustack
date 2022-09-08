@@ -106,6 +106,7 @@
       "type": 3,
       "title": "Watchtower",
       "description": "Update docker images on new publishes",
+      "name": "watchtower",
       "categories": ["Admin"],
       "platform": "linux",
       "repository": {
