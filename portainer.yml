@@ -4,6 +4,12 @@ services:
   traefik:
     image: "traefik:latest"
     command:
+      - --accesslog
+      - --providers.docker=true
+      - --providers.docker.swarmMode=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=public
+      - --api.insecure=true
       - --entrypoints.web.address=:80
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
@@ -12,12 +18,6 @@ services:
       - --certificatesresolvers.le.acme.email=admin@tcmi.edu
       - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
       - --certificatesresolvers.le.acme.tlschallenge=true
-      - --providers.docker=true
-      - --providers.docker.swarmMode=true
-      - --providers.docker.exposedbydefault=false
-      - --providers.docker.network=public
-      - --api.insecure=true
-      - --accesslog
       - --log.level=ERROR
     labels:
       - traefik.enable=true
@@ -72,14 +72,12 @@ services:
       labels:
       - traefik.enable=true
       - traefik.http.routers.portainer.rule=Host(`portainer.tcmi.edu`)
-      - traefik.http.routers.portainer.entrypoints=web
       - traefik.http.routers.portainer.tls=true
       - traefik.http.routers.portainer.tls.certresolver=le
-      - traefik.http.services.portainer.loadbalancer.server.port=9000
       - traefik.http.routers.portainer.service=portainer
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
       # Edge
       - traefik.http.routers.edge.rule=Host(`edge.tcmi.edu`)
-      - traefik.http.routers.edge.entrypoints=web
       - traefik.http.routers.edge.tls=true
       - traefik.http.routers.edge.tls.certresolver=le
       - traefik.http.services.edge.loadbalancer.server.port=8000
