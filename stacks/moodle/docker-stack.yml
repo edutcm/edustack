@@ -20,6 +20,7 @@ services:
       - traefik.http.routers.moodle.service={{ TRAEFIK_SERVICE }}
       - traefik.http.routers.moodle.tls=true
       - traefik.http.routers.moodle.tls.certresolver=le
+      - traefik.http.routers.moodle.entrypoints=websecure
       - traefik.docker.network=frontend
       - com.centurylinklabs.watchtower.enable=true
     networks:

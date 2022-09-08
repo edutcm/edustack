@@ -29,6 +29,7 @@ services:
        - traefik.http.routers.wordpress.service=${TRAEFIK_SERVICE:-wordpress-wordpress}
        - traefik.http.routers.wordpress.tls=true
        - traefik.http.routers.wordpress.tls.certresolver=le
+       - traefik.http.routers.wordpress.entrypoints=websecure
        - traefik.docker.network=frontend
        - com.centurylinklabs.watchtower.enable=true
      networks:
