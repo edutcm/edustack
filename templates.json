@@ -103,7 +103,6 @@
     {
       "type": 3,
       "title": "Watchtower",
-      "name": "watchtower",
       "description": "Update docker images on new publishes",
       "categories": ["Admin"],
       "platform": "linux",
