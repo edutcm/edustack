@@ -7,7 +7,6 @@
       "description": "Traefik Ingress Controller",
       "categories": ["Ingress"],
       "platform": "linux",
-      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/moodle.png",
       "repository": {
         "url": "https://github.com/edutcm/edustack",
         "stackfile": "stacks/traefik/docker-compose.yml"
@@ -30,7 +29,6 @@
       "description": "A Moodle 4+ stack optimized for tcmi.edu",
       "categories": ["LMS"],
       "platform": "linux",
-      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/moodle.png",
       "repository": {
         "url": "https://github.com/edutcm/edustack",
         "stackfile": "stacks/moodle/docker-compose.yml"
@@ -61,7 +59,6 @@
       "description": "A Moodle 3+ stack optimized for tcmi.edu",
       "categories": ["LMS"],
       "platform": "linux",
-      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/moodle.png",
       "repository": {
         "url": "https://github.com/edutcm/edustack",
         "stackfile": "stacks/moodle3/docker-compose.yml"
