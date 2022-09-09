@@ -2,7 +2,10 @@ FROM php:7.4-fpm
 
 # ARGS
 ARG VERSION
-ARG VERSION_NAME
+
+# ENV
+ENV MOODLE_DB_PASSWORD=password
+ENV MOODLE_HOSTNAME=moodle.local
 
 # Install extensions
 RUN apt-get update \
@@ -11,7 +14,7 @@ RUN apt-get update \
     libpspell-dev libxml2-dev libzip-dev libmagickwand-dev libldap2-dev \
     libjpeg-dev libfreetype6-dev libwebp-dev \
     rsync openssh-client cron locales curl git wget \
-    nginx \
+    nginx gnutls-bin \
     --no-install-recommends
 
 RUN docker-php-ext-configure ldap --with-libdir=lib/$(uname -m)-linux-gnu/
@@ -54,11 +57,14 @@ RUN ln -s $PWD/moosh.php /usr/local/bin/moosh
 
 # Download Moodle
 WORKDIR /var/www
-RUN moosh download-moodle -v 4.00
-RUN tar -zxvf moodle-latest-400.tgz
-RUN cp -R moodle/* html/
-RUN rm -r moodle
-RUN rm moodle-latest-400.tgz
+RUN git clone https://github.com/moodle/moodle.git
+WORKDIR /var/www/moodle
+RUN git branch --track MOODLE_${VERSION}_STABLE origin/MOODLE_${VERSION}_STABLE
+RUN git checkout MOODLE_${VERSION}_STABLE
+WORKDIR /var/www
+RUN rm -r html
+RUN mv moodle html
+COPY config.php /var/www/html/config.php
 
 # Change to Moodle dir
 WORKDIR /var/www/html
@@ -90,5 +96,4 @@ VOLUME [ "/var/www/html", "/var/moodledata" ]
 EXPOSE 80
 
 #RUN service cron start
-# CMD cron; php-fpm;
 ENTRYPOINT ["sh", "/etc/entrypoint.sh"]
