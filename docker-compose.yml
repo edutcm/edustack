@@ -38,7 +38,7 @@ services:
 
   portainer:
     image: portainer/portainer-ee:latest
-    command: -H unix:///var/run/docker.sock
+    command: -H unix:///var/run/docker.sock --templates https://raw.githubusercontent.com/edutcm/edustack/main/templates.json
     restart: always
     volumes:
       - portainer_data:/data

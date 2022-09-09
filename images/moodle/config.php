@@ -1,5 +1,3 @@
-<?php
-
 <?php  // Moodle configuration file
 
 unset($CFG);
@@ -20,11 +18,18 @@ $CFG->dboptions = array (
   'dbcollation' => 'utf8mb4_general_ci',
 );
 
-$CFG->wwwroot   = 'https://' . getenv('MOODLE_HOSTNAME');;
+$CFG->wwwroot   = 'https://' . getenv('MOODLE_HOSTNAME');
 $CFG->dataroot  = '/var/moodledata';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
+
+$CFG->session_handler_class = '\core\session\redis';
+$CFG->session_redis_host = 'redis';
+$CFG->session_redis_port = 6379;
+$CFG->session_redis_compressor = 'gzip';
+
+var_dump($CFG);
 
 require_once(__DIR__ . '/lib/setup.php');
 

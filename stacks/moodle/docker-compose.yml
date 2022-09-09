@@ -12,8 +12,8 @@ services:
       - moodle:/var/www/html
       - moodledata:/var/moodledata
     environment:
-      MOODLE_PASSWORD: ${MYSQL_DB_PASSWORD:-password}
-      MOODLE_DOMAIN: ${HOSTNAME:-moodle.local}
+      MOODLE_DB_PASSWORD: ${MYSQL_DB_PASSWORD:-password}
+      MOODLE_HOSTNAME: ${HOSTNAME:-moodle.local}
     labels:
       - traefik.enable=true
       - traefik.http.routers.moodle.rule=Host(`${HOSTNAME:-moodle.local}`)

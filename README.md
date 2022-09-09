@@ -38,3 +38,10 @@ docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
 ## Added private registry
 
 Add the jamfire private registry under Settings > Registries using a cli token.
+
+## Moodle Issues...
+
+```php
+$CFG->wwwroot  = 'https://moodle3.docker.local'; # add https
+$CFG->sslproxy = true;
+```
